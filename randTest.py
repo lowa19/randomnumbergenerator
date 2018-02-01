@@ -20,11 +20,6 @@ def createData(lowerBound, upperBound):
     
     createFile(randData)
     return
-  
-def createFile(myList):
-    with open("data.csv", "w") as myFile:
-        myFile.write('\n'.join('%s' % tupl for tupl in myList))
-    return
 
 
 
