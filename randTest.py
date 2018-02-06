@@ -10,8 +10,6 @@ def createData(lowerBound, upperBound):
     randData = [(range(26)[np.random.choice(range(26), 1, p = prob)[0]]) for i in range(lowerBound, upperBound)]
     plt.hist(randData, bins=range(26))
     plt.show
-    
-    createFile(randData)
     showOccurances(randData, alphabet) #if we want to see the amount of each variable generated
     return
 
