@@ -1,5 +1,29 @@
-import random, string, numpy as np, matplotlib.pyplot as plt, time
+import csv, random, string, numpy as np, matplotlib.pyplot as plt, time
 
+####################################################################
+## Variables
+## stores given name of variable and weight
+####################################################################
+class Variables:
+    def __init__(self, name, weight):
+        self.name = name
+        self.weight = weight
+        
+###################################################################
+## convFileToVars
+## Parameters: inputfile - .csv file
+## creates instances of Variables from the given data in the file
+## and stores them in a list to get referenced later when creating
+## random amounts of the Variables
+###################################################################
+def convFileToVars(inputfile):
+    with open(inputfile, "r") as file:
+        data = csv.reader(file, delimiter = ',')
+        vars = []
+        for row in data:
+            vars.append(Variables(row[0], row[1]))
+    return vars
+            
 def createData(lowerBound, upperBound):
     alphabet = list(string.ascii_lowercase) #list of all letters in alphabet
     prob = [.0025,.0075,.0125,.02,.0275,.0325,.04,.045,.05,.0575,.0625,.0675,.075,.075,
