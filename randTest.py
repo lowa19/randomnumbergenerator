@@ -1,12 +1,5 @@
 import random, string, numpy as np, matplotlib.pyplot as plt, time
 
-###################################
-#createData makes a list of tuples
-#a letter with a random number
-#Parameters: ints for lowerbound and
-#upperbounds for random numbers
-#return: does not return anything
-###################################
 def createData(lowerBound, upperBound):
     alphabet = list(string.ascii_lowercase) #list of all letters in alphabet
     prob = [.0025,.0075,.0125,.02,.0275,.0325,.04,.045,.05,.0575,.0625,.0675,.075,.075,
@@ -19,6 +12,7 @@ def createData(lowerBound, upperBound):
     plt.show
     
     createFile(randData)
+    showOccurances(randData, alphabet) #if we want to see the amount of each variable generated
     return
 
 
@@ -26,3 +20,13 @@ def createData(lowerBound, upperBound):
 start_time = time.time()
 createData(1,1000000)
 print("%s seconds" % (time.time()-start_time))
+
+###################################################################
+## showOccurances gives a count of each variable in a list of data
+## Parameters: listdata - our randomly generated data
+##             alph - the list of variables
+###################################################################
+def showOccurances( listdata, alph ):
+    dataList = [(i, listdata.count(i)) for i in alph]
+    print(dataList)
+    return
