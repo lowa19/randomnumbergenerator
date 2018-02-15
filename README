@@ -1,0 +1,11 @@
+For ALIASMETHOD:
+This generates a user specified number of values as described in the keithschwartz article.
+
+It currently prints a list of the values given in VOSERUNNER.
+
+In VOSERUNNER, you can edit the dist by adding, subrtacting and editing weights and titles of variables. Follow basic format
+already shown in VOSERUNNER.
+
+A histogram of the results is also printed, but I am having trouble with it as of 2.14.18.
+
+BA
