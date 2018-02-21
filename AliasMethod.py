@@ -104,10 +104,20 @@ class VoseAlias(object):
         except ValueError as ve:
             sys.exit("\nError: %s" % ve)
 
+        vals = []	#initialize empty list of values
+        for i in range(n):	#loop through n times
+            vals.append(self.alias_generation())	#get one alias_generation value (O(1)) and append (O(1)) it to vals
+        print(vals)	#print the entire list 
+        self.make_histogram(vals, n)	#make a histogram of results
 
 
     def make_histogram(self, values, size):
         """ Prints off a histogram of the values created in alias_generation """
+        plt.hist(values, bins = "auto")	#values are the data being counted
+        plt.title("Occurrences of Randomly Generated Values")	#title of histogram
+        plt.xlabel("Value")	#x-axis label
+        plt.ylabel("Count")	#y-axis label
+        plt.show()	#print window of histogram
 
 		
 		
