@@ -12,26 +12,26 @@ class VoseAlias(object):
     tables for efficient sampling via Vose's Alias Method (a good explanation of which can be found at
     http://www.keithschwarz.com/darts-dice-coins/).
     """
-###############################################################
+
+######################################################################################################
 
     def __init__(self, dist, size):
         """ (VoseAlias, dict) -> NoneType """
-        sumOfInputs = 0
+        sum_of_inputs = 0
         for i in dist.keys():
-            sumOfInputs = sumOfInputs + dist[i]
-            print(sumOfInputs)
+            sum_of_inputs = sum_of_inputs + dist[i]
             if dist[i] < 0:
                 print("Error, no non-negative values.")
                 return
-        if abs(1 - sumOfInputs) > 0.05:
-            print(sumOfInputs)
+        if abs(1 - sum_of_inputs) > 0.05:
             print("Probabilities must add up to one.")
             return
         self.dist = dist
         self.alias_initialisation()
         self.sample_n(size)
-############################################################################
 
+########################################################################################################		
+		
     def alias_initialisation(self):
         """ Construct probability and alias tables for the distribution. """
         # Initialize variables
@@ -72,8 +72,9 @@ class VoseAlias(object):
 
         while small:
             self.table_prob[small.pop()] = Decimal(1)	#round whatever values are left to 1
-######################################################################
 
+###################################################################################################
+			
     def alias_generation(self):
         """ Return a random outcome from the distribution. """
         # Determine which column of table_prob to inspect
@@ -84,7 +85,8 @@ class VoseAlias(object):
             return col
         else:
             return self.table_alias[col]
-########################################################################
+			
+######################################################################################################
 
     def sample_n(self, size):
         """ Retrun a sample of size n from the distribution, and print the results to stdout. """
@@ -102,7 +104,7 @@ class VoseAlias(object):
         print(vals)	#print the entire list 
         self.make_histogram(vals, n)	#make a histogram of results
 
-###############################################################################
+####################################################################################################		
 
     def make_histogram(self, values, size):
         """ Prints off a histogram of the values created in alias_generation """
@@ -111,10 +113,7 @@ class VoseAlias(object):
         plt.xlabel("Value")	#x-axis label
         plt.ylabel("Count")	#y-axis label
         plt.show()	#print window of histogram
-<<<<<<< HEAD
 
-=======
->>>>>>> 1b5fb1ea3970b938f526ce6a890349add9727104
 		
 		
 
