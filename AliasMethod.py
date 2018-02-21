@@ -32,7 +32,7 @@ class VoseAlias(object):
 
     def alias_initialisation(self):
         """ Construct probability and alias tables for the distribution. """
-        # Initialise variables
+        # Initialize variables
         n = len(self.dist)
         self.table_prob = {}   # probability table
         self.table_alias = {}  # alias table
@@ -42,34 +42,46 @@ class VoseAlias(object):
 
         # Construct and sort the scaled probabilities into their appropriate stacks
         for o, p in self.dist.items():
-            scaled_prob[o] = Decimal(p) * n
+            scaled_prob[o] = Decimal(p) * n	#make new list of scaled probabilities (prob times n)
 
-            if scaled_prob[o] < 1:
-                small.append(o)
+            if scaled_prob[o] < 1:	#put scaled values into new lists based on size
+                small.append(o)	#values less than 1
             else:
-                large.append(o)
+                large.append(o)	#values greater than 1
 
         # Construct the probability and alias tables
-        while small and large:
-            s = small.pop()
-            l = large.pop()
+        while small and large:	#while both lists are not empty
+            s = small.pop()	#s is scaled probability less than 1
+            L = large.pop()	#l is scaled probability greater than 1
 
-            self.table_prob[s] = scaled_prob[s]
-            self.table_alias[s] = l
+            self.table_prob[s] = scaled_prob[s]	#put s in list of probabilities
+            self.table_alias[s] = L	#put L in list of aliases corresponding to s
 
+<<<<<<< HEAD
             scaled_prob[l] = (scaled_prob[l] + scaled_prob[s]) - Decimal(1) #Decimal of one 
+=======
+            scaled_prob[L] = (scaled_prob[L] + scaled_prob[s]) - Decimal(1)	#add s to L and subtract 1 to get new L (represents 1-s being taken from L)
+>>>>>>> 27652009d06301afefb1772de955f1931b9f5928
 
-            if scaled_prob[l] < 1:
-                small.append(l)
+            if scaled_prob[L] < 1:	#add new L to appropriate
+                small.append(L)	#new L is less than 1
             else:
-                large.append(l)
+                large.append(L)	#new L is still greater than 1
 
         # The remaining outcomes (of one stack) must have probability 1
+<<<<<<< HEAD
         while large:
             self.table_prob[large.pop()] = Decimal(1) # decimal of one
 
         while small:
             self.table_prob[small.pop()] = Decimal(1) #decimal of one
+=======
+        while large:	#small list is now empty but large list is not
+            self.table_prob[large.pop()] = Decimal(1)	#round whatever values are left to 1
+
+        while small:
+            self.table_prob[small.pop()] = Decimal(1)	#round whatever values are left to 1
+>>>>>>> 27652009d06301afefb1772de955f1931b9f5928
 
     def alias_generation(self):
         """ Return a random outcome from the distribution. """
@@ -92,20 +104,10 @@ class VoseAlias(object):
         except ValueError as ve:
             sys.exit("\nError: %s" % ve)
 
-        vals = []
-        for i in range(n):
-            vals.append(self.alias_generation())
-        print(vals)
-        self.make_histogram(vals, n)
 
 
     def make_histogram(self, values, size):
         """ Prints off a histogram of the values created in alias_generation """
-        plt.hist(values, bins = "auto")
-        plt.title("Occurrences of Randomly Generated Values")
-        plt.xlabel("Value")
-        plt.ylabel("Count")
-        plt.show()
 
 		
 		
