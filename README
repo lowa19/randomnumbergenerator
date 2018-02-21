@@ -6,7 +6,9 @@ It currently prints a list of the values given in VOSERUNNER.
 In VOSERUNNER, you can edit the dist by adding, subrtacting and editing weights and titles of variables. Follow basic format
 already shown in VOSERUNNER.
 
-A histogram of the results is also printed, but I am having trouble with it as of 2.14.18.
+EDIT 2.20.18:
+Moved some of the code around, now only one method is called from voseRunner.py, now put values in as before but put in 'n' in the call
+to VA now. This allows us to make sure no negative values in weights. Also added fnctionality to histogram.
 
 -----RUN VOSERUNNER AFTER YOU HAVE MADE THE CHANGES YOU WANT TO MAKE------
 
