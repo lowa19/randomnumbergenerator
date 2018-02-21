@@ -15,10 +15,17 @@ class VoseAlias(object):
 
     def __init__(self, dist, size):
         """ (VoseAlias, dict) -> NoneType """
+        sumOfInputs =0
         for i in dist.keys():
+            sumOfInputs = sumOfInputs + dist[i]
+            print(sumOfInputs)
             if dist[i] < 0:
                 print("Error, no non-negative values.")
                 return
+        if abs(1 - sumOfInputs) > 0.05:
+            print(sumOfInputs)
+            print("Probabilities must add up to one.")
+            return
         self.dist = dist
         self.alias_initialisation()
         self.sample_n(size)
@@ -50,7 +57,7 @@ class VoseAlias(object):
             self.table_prob[s] = scaled_prob[s]
             self.table_alias[s] = l
 
-            scaled_prob[l] = (scaled_prob[l] + scaled_prob[s]) - Decimal(1)
+            scaled_prob[l] = (scaled_prob[l] + scaled_prob[s]) - Decimal(1) #Decimal of one 
 
             if scaled_prob[l] < 1:
                 small.append(l)
@@ -59,10 +66,10 @@ class VoseAlias(object):
 
         # The remaining outcomes (of one stack) must have probability 1
         while large:
-            self.table_prob[large.pop()] = Decimal(1)
+            self.table_prob[large.pop()] = Decimal(1) # decimal of one
 
         while small:
-            self.table_prob[small.pop()] = Decimal(1)
+            self.table_prob[small.pop()] = Decimal(1) #decimal of one
 
     def alias_generation(self):
         """ Return a random outcome from the distribution. """
