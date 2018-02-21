@@ -12,10 +12,11 @@ class VoseAlias(object):
     tables for efficient sampling via Vose's Alias Method (a good explanation of which can be found at
     http://www.keithschwarz.com/darts-dice-coins/).
     """
+###############################################################
 
     def __init__(self, dist, size):
         """ (VoseAlias, dict) -> NoneType """
-        sumOfInputs =0
+        sumOfInputs = 0
         for i in dist.keys():
             sumOfInputs = sumOfInputs + dist[i]
             print(sumOfInputs)
@@ -29,6 +30,7 @@ class VoseAlias(object):
         self.dist = dist
         self.alias_initialisation()
         self.sample_n(size)
+############################################################################
 
     def alias_initialisation(self):
         """ Construct probability and alias tables for the distribution. """
@@ -57,11 +59,7 @@ class VoseAlias(object):
             self.table_prob[s] = scaled_prob[s]	#put s in list of probabilities
             self.table_alias[s] = L	#put L in list of aliases corresponding to s
 
-<<<<<<< HEAD
-            scaled_prob[l] = (scaled_prob[l] + scaled_prob[s]) - Decimal(1) #Decimal of one 
-=======
             scaled_prob[L] = (scaled_prob[L] + scaled_prob[s]) - Decimal(1)	#add s to L and subtract 1 to get new L (represents 1-s being taken from L)
->>>>>>> 27652009d06301afefb1772de955f1931b9f5928
 
             if scaled_prob[L] < 1:	#add new L to appropriate
                 small.append(L)	#new L is less than 1
@@ -69,19 +67,12 @@ class VoseAlias(object):
                 large.append(L)	#new L is still greater than 1
 
         # The remaining outcomes (of one stack) must have probability 1
-<<<<<<< HEAD
-        while large:
-            self.table_prob[large.pop()] = Decimal(1) # decimal of one
-
-        while small:
-            self.table_prob[small.pop()] = Decimal(1) #decimal of one
-=======
         while large:	#small list is now empty but large list is not
             self.table_prob[large.pop()] = Decimal(1)	#round whatever values are left to 1
 
         while small:
             self.table_prob[small.pop()] = Decimal(1)	#round whatever values are left to 1
->>>>>>> 27652009d06301afefb1772de955f1931b9f5928
+######################################################################
 
     def alias_generation(self):
         """ Return a random outcome from the distribution. """
@@ -93,6 +84,7 @@ class VoseAlias(object):
             return col
         else:
             return self.table_alias[col]
+########################################################################
 
     def sample_n(self, size):
         """ Retrun a sample of size n from the distribution, and print the results to stdout. """
@@ -110,6 +102,7 @@ class VoseAlias(object):
         print(vals)	#print the entire list 
         self.make_histogram(vals, n)	#make a histogram of results
 
+###############################################################################
 
     def make_histogram(self, values, size):
         """ Prints off a histogram of the values created in alias_generation """
@@ -118,7 +111,10 @@ class VoseAlias(object):
         plt.xlabel("Value")	#x-axis label
         plt.ylabel("Count")	#y-axis label
         plt.show()	#print window of histogram
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1b5fb1ea3970b938f526ce6a890349add9727104
 		
 		
 
