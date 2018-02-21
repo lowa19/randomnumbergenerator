@@ -13,10 +13,15 @@ class VoseAlias(object):
     http://www.keithschwarz.com/darts-dice-coins/).
     """
 
-    def __init__(self, dist):
+    def __init__(self, dist, size):
         """ (VoseAlias, dict) -> NoneType """
+        for i in dist.keys():
+            if dist[i] < 0:
+                print("Error, no non-negative values.")
+                return
         self.dist = dist
         self.alias_initialisation()
+        self.sample_n(size)
 
     def alias_initialisation(self):
         """ Construct probability and alias tables for the distribution. """
@@ -80,7 +85,6 @@ class VoseAlias(object):
         except ValueError as ve:
             sys.exit("\nError: %s" % ve)
 
-        print("\nGenerating %d random samples:\n" % n)
         vals = []
         for i in range(n):
             vals.append(self.alias_generation())
@@ -90,6 +94,12 @@ class VoseAlias(object):
 
     def make_histogram(self, values, size):
         """ Prints off a histogram of the values created in alias_generation """
-        plt.hist(values, bins=len(self.dist))
+        plt.hist(values, bins = "auto")
+        plt.title("Occurrences of Randomly Generated Values")
+        plt.xlabel("Value")
+        plt.ylabel("Count")
         plt.show()
+
+		
+		
 
