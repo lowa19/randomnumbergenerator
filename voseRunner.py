@@ -1,12 +1,14 @@
 from AliasMethod import VoseAlias
 import time
 
+#initialize time
 start_time = time.time()
 
-dist = { "1" : 0.1, "2" : 0.2, "8" : 2, "9" : .5}
+#set values and weights for generation
+dist = {"A" : .1, "B" : .2, "C" : .3, "D" : .1, "E" : .1}
 
-VA = VoseAlias( dist )
+#make an instance of VoseAlias using data from dist and number of values
+VA = VoseAlias(dist, 10000)
 
-VA.sample_n( size = 10000 )
-
-#print("%s seconds" % (time.time()-start_time))
+#print out the time elapsed
+print("%s seconds" % (time.time()-start_time))
