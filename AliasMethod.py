@@ -30,8 +30,8 @@ class VoseAlias(object):
         self.alias_initialisation()
         self.sample_n(size)
 
-########################################################################################################		
-		
+########################################################################################################
+
     def alias_initialisation(self):
         """ Construct probability and alias tables for the distribution. """
         # Initialize variables
@@ -74,7 +74,7 @@ class VoseAlias(object):
             self.table_prob[small.pop()] = Decimal(1)	#round whatever values are left to 1
 
 ###################################################################################################
-			
+
     def alias_generation(self):
         """ Return a random outcome from the distribution. """
         # Determine which column of table_prob to inspect
@@ -85,7 +85,7 @@ class VoseAlias(object):
             return col
         else:
             return self.table_alias[col]
-			
+
 ######################################################################################################
 
     def sample_n(self, size):
@@ -101,10 +101,11 @@ class VoseAlias(object):
         vals = []	#initialize empty list of values
         for i in range(n):	#loop through n times
             vals.append(self.alias_generation())	#get one alias_generation value (O(1)) and append (O(1)) it to vals
-        print(vals)	#print the entire list 
+        #print(vals)	#print the entire list
+        self.countData(self.dist, vals) #function to print data nicely
         self.make_histogram(vals, n)	#make a histogram of results
 
-####################################################################################################		
+####################################################################################################
 
     def make_histogram(self, values, size):
         """ Prints off a histogram of the values created in alias_generation """
@@ -114,6 +115,10 @@ class VoseAlias(object):
         plt.ylabel("Count")	#y-axis label
         plt.show()	#print window of histogram
 
-		
-		
+######################################################################################################
 
+    def countData(self, dist, vals):
+        for x in dist:
+            varCount = vals.count(x)
+            print("Count of " + x + ": " + str(varCount)) #print the count
+            print("Percent: " + str(100*(varCount / len(vals))) + "%") #print the percent
