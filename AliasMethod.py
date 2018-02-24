@@ -111,10 +111,7 @@ class VoseAlias(object):
         plt.xlabel("Value")	#x-axis label
         plt.ylabel("Count")	#y-axis label
         plt.show()	#print window of histogram
-<<<<<<< HEAD
 
-=======
->>>>>>> 1b5fb1ea3970b938f526ce6a890349add9727104
 		
 		
 
