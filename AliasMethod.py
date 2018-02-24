@@ -106,9 +106,10 @@ class VoseAlias(object):
             vals.append(self.alias_generation())	#get one alias_generation value (O(1)) and append (O(1)) it to vals
         self.generation_time = time.time() - self.init_time
         #print(vals)	#print the entire list
-        self.countData(self.dist, vals) #function to print data nicely
+        self.count_data(self.dist, vals) #function to print data nicely
         self.generation_and_print_time = time.time() - self.generation_time
         self.make_histogram(vals, n)	#make a histogram of results
+        self.print_times()
 
 ####################################################################################################		
 
@@ -119,15 +120,21 @@ class VoseAlias(object):
         plt.xlabel("Value")	#x-axis label
         plt.ylabel("Count")	#y-axis label
         self.total_time = time.time() - self.start_time
-        print("\nInitialization time: %s seconds" %self.init_time)
-        print("\nGeneration time: %s seconds" %self.generation_time)
-        print("\nPrint time: %s seconds" %self.generation_and_print_time)
-        print("\nTotal time: %s seconds" %self.total_time)
         plt.show()	#print window of histogram
 
 ########################################################################################################
 
-    def countData(self, dist, vals):
+    def print_times(self):
+        """This method just prints off the times taken for each part"""
+        #print("\nInitialization time: %s seconds" %self.init_time)
+        #print("\nGeneration time: %s seconds" %self.generation_time)
+        print("\nPrint time: %s seconds" %self.generation_and_print_time)
+        print("\nTotal time: %s seconds" %self.total_time)
+
+########################################################################################################
+
+    def count_data(self, dist, vals):
+        """Makes the data nicer and easier to read"""
         for x in dist:
             varCount = vals.count(x)
             print("Count of " + x + ": " + str(varCount)) #print the count
