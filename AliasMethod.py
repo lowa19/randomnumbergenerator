@@ -122,7 +122,6 @@ class VoseAlias(object):
         self.total_time = time.time() - self.start_time
         plt.show()	#print window of histogram
 
-<<<<<<< HEAD
 		
 ########################################################################################################
 
