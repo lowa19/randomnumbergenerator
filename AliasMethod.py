@@ -115,10 +115,12 @@ class VoseAlias(object):
         plt.ylabel("Count")	#y-axis label
         plt.show()	#print window of histogram
 
+<<<<<<< HEAD
 		
 		
 =======
 ######################################################################################################
+>>>>>>> 6036985aa71e39cd1efc26639044e001f27fac35
 
     def countData(self, dist, vals):
         for x in dist:
