@@ -124,11 +124,6 @@ class VoseAlias(object):
 
 <<<<<<< HEAD
 		
-		
-=======
-######################################################################################################
->>>>>>> 6036985aa71e39cd1efc26639044e001f27fac35
-=======
 ########################################################################################################
 
     def print_times(self):
@@ -137,7 +132,6 @@ class VoseAlias(object):
         #print("\nGeneration time: %s seconds" %self.generation_time)
         print("\nPrint time: %s seconds" %self.generation_and_print_time)
         print("\nTotal time: %s seconds" %self.total_time)
-
 ########################################################################################################
 
     def count_data(self, dist, vals):
