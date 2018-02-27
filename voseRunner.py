@@ -1,4 +1,5 @@
 from AliasMethod import VoseAlias
+import calcProbs
 #import time
 
 #initialize time
@@ -7,7 +8,7 @@ from AliasMethod import VoseAlias
 #set values and weights for generation
 
 dist = {"A" : .1, "B" : .2, "C" : .3, "D" : .1, "E" : .3}
-
+dist = calcProbs.calcProbs(dist)
 
 #make an instance of VoseAlias using data from dist and number of values
 VA = VoseAlias(dist, 1000)
