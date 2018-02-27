@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 
 class VoseAlias(object):
     """ A probability distribution for discrete weighted random variables and its probability/alias
-    tables for efficient sampling via Vose's Alias Method 
+    tables for efficient sampling via Vose's Alias Method
     """
-	
+
     start_time = time.time()
     init_time = 0
     generation_time = 0
@@ -33,8 +33,8 @@ class VoseAlias(object):
         self.init_time = time.time() - self.start_time
         self.sample_n(size)
 
-########################################################################################################		
-		
+########################################################################################################
+
     def alias_initialisation(self):
         """ Construct probability and alias tables for the distribution. """
         # Initialize variables
@@ -77,7 +77,7 @@ class VoseAlias(object):
             self.table_prob[small.pop()] = Decimal(1)	#round whatever values are left to 1
 
 ###################################################################################################
-			
+
     def alias_generation(self):
         """ Return a random outcome from the distribution. """
         # Determine which column of table_prob to inspect
@@ -88,7 +88,7 @@ class VoseAlias(object):
             return col
         else:
             return self.table_alias[col]
-			
+
 ######################################################################################################
 
     def sample_n(self, size):
@@ -111,7 +111,7 @@ class VoseAlias(object):
         self.make_histogram(vals, n)	#make a histogram of results
         self.print_times()
 
-####################################################################################################		
+####################################################################################################
 
     def make_histogram(self, values, size):
         """ Prints off a histogram of the values created in alias_generation """
@@ -122,8 +122,6 @@ class VoseAlias(object):
         self.total_time = time.time() - self.start_time
         plt.show()	#print window of histogram
 
-<<<<<<< HEAD
-		
 ########################################################################################################
 
     def print_times(self):
@@ -132,14 +130,15 @@ class VoseAlias(object):
         #print("\nGeneration time: %s seconds" %self.generation_time)
         print("\nPrint time: %s seconds" %self.generation_and_print_time)
         print("\nTotal time: %s seconds" %self.total_time)
+
 ########################################################################################################
 
     def count_data(self, dist, vals):
         """Makes the data nicer and easier to read"""
-        for x in dist:
-            varCount = vals.count(x)
-            print("Count of " + x + ": " + str(varCount)) #print the count
-            print("Percent: " + str(100*(varCount / len(vals))) + "%") #print the percent
-		
-		
-
+        with open("outputs.csv", "w") as myFile:
+            for x in dist:
+                varCount = vals.count(x)
+                print("Count of " + x + ": " + str(varCount)) #print the count
+                percent = str(100*(varCount / len(vals)))
+                print("Percent: " + percent + "%") #print the percent
+                myFile.write(str(x) + "," + str(varCount) + "," + percent + "\n")
