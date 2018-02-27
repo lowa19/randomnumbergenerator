@@ -1,7 +1,4 @@
-import os
-import random
-import re
-import sys
+import os, random, re, sys, time
 from decimal import *
 from optparse import OptionParser
 import matplotlib.pyplot as plt
@@ -9,9 +6,14 @@ import matplotlib.pyplot as plt
 
 class VoseAlias(object):
     """ A probability distribution for discrete weighted random variables and its probability/alias
-    tables for efficient sampling via Vose's Alias Method (a good explanation of which can be found at
-    http://www.keithschwarz.com/darts-dice-coins/).
+    tables for efficient sampling via Vose's Alias Method 
     """
+	
+    start_time = time.time()
+    init_time = 0
+    generation_time = 0
+    generation_and_print_time = 0
+    total_time = 0
 
 ######################################################################################################
 
@@ -28,10 +30,11 @@ class VoseAlias(object):
             return
         self.dist = dist
         self.alias_initialisation()
+        self.init_time = time.time() - self.start_time
         self.sample_n(size)
 
-########################################################################################################
-
+########################################################################################################		
+		
     def alias_initialisation(self):
         """ Construct probability and alias tables for the distribution. """
         # Initialize variables
@@ -74,7 +77,7 @@ class VoseAlias(object):
             self.table_prob[small.pop()] = Decimal(1)	#round whatever values are left to 1
 
 ###################################################################################################
-
+			
     def alias_generation(self):
         """ Return a random outcome from the distribution. """
         # Determine which column of table_prob to inspect
@@ -85,7 +88,7 @@ class VoseAlias(object):
             return col
         else:
             return self.table_alias[col]
-
+			
 ######################################################################################################
 
     def sample_n(self, size):
@@ -101,11 +104,14 @@ class VoseAlias(object):
         vals = []	#initialize empty list of values
         for i in range(n):	#loop through n times
             vals.append(self.alias_generation())	#get one alias_generation value (O(1)) and append (O(1)) it to vals
+        self.generation_time = time.time() - self.init_time
         #print(vals)	#print the entire list
-        self.countData(self.dist, vals) #function to print data nicely
+        self.count_data(self.dist, vals) #function to print data nicely
+        self.generation_and_print_time = time.time() - self.generation_time
         self.make_histogram(vals, n)	#make a histogram of results
+        self.print_times()
 
-####################################################################################################
+####################################################################################################		
 
     def make_histogram(self, values, size):
         """ Prints off a histogram of the values created in alias_generation """
@@ -113,12 +119,27 @@ class VoseAlias(object):
         plt.title("Occurrences of Randomly Generated Values")	#title of histogram
         plt.xlabel("Value")	#x-axis label
         plt.ylabel("Count")	#y-axis label
+        self.total_time = time.time() - self.start_time
         plt.show()	#print window of histogram
 
-######################################################################################################
+<<<<<<< HEAD
+		
+########################################################################################################
 
-    def countData(self, dist, vals):
+    def print_times(self):
+        """This method just prints off the times taken for each part"""
+        #print("\nInitialization time: %s seconds" %self.init_time)
+        #print("\nGeneration time: %s seconds" %self.generation_time)
+        print("\nPrint time: %s seconds" %self.generation_and_print_time)
+        print("\nTotal time: %s seconds" %self.total_time)
+########################################################################################################
+
+    def count_data(self, dist, vals):
+        """Makes the data nicer and easier to read"""
         for x in dist:
             varCount = vals.count(x)
             print("Count of " + x + ": " + str(varCount)) #print the count
             print("Percent: " + str(100*(varCount / len(vals))) + "%") #print the percent
+		
+		
+
