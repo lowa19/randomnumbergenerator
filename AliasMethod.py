@@ -1,4 +1,4 @@
-import os, random, re, sys, time
+import os, random, re, sys, time, csv
 from decimal import *
 from optparse import OptionParser
 import matplotlib.pyplot as plt
@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 
 class VoseAlias(object):
     """ A probability distribution for discrete weighted random variables and its probability/alias
-    tables for efficient sampling via Vose's Alias Method
+    tables for efficient sampling via Vose's Alias Method 
     """
-
+	
     start_time = time.time()
     init_time = 0
     generation_time = 0
@@ -33,8 +33,8 @@ class VoseAlias(object):
         self.init_time = time.time() - self.start_time
         self.sample_n(size)
 
-########################################################################################################
-
+########################################################################################################		
+		
     def alias_initialisation(self):
         """ Construct probability and alias tables for the distribution. """
         # Initialize variables
@@ -77,7 +77,7 @@ class VoseAlias(object):
             self.table_prob[small.pop()] = Decimal(1)	#round whatever values are left to 1
 
 ###################################################################################################
-
+			
     def alias_generation(self):
         """ Return a random outcome from the distribution. """
         # Determine which column of table_prob to inspect
@@ -88,7 +88,7 @@ class VoseAlias(object):
             return col
         else:
             return self.table_alias[col]
-
+			
 ######################################################################################################
 
     def sample_n(self, size):
@@ -111,7 +111,7 @@ class VoseAlias(object):
         self.make_histogram(vals, n)	#make a histogram of results
         self.print_times()
 
-####################################################################################################
+####################################################################################################		
 
     def make_histogram(self, values, size):
         """ Prints off a histogram of the values created in alias_generation """
@@ -139,6 +139,31 @@ class VoseAlias(object):
             for x in dist:
                 varCount = vals.count(x)
                 print("Count of " + x + ": " + str(varCount)) #print the count
-                percent = str(100*(varCount / len(vals)))
-                print("Percent: " + percent + "%") #print the percent
+                print("Percent: " + str(100*(varCount / len(vals))) + "%") #print the percent
                 myFile.write(str(x) + "," + str(varCount) + "," + percent + "\n")
+		
+		
+		
+		
+		
+if len(sys.argv) == 2:		
+    #path = 'c:\\temp\\'
+
+    file = open(sys.argv[1], "r")
+    reader = csv.reader(file)
+    dist = {}
+    for line in reader:
+        dist[line[0]] = float(line[1])
+	
+    #set values and weights for generation
+    #dist = {"A" : .1, "B" : .2, "C" : .3, "D" : .4}
+
+    #make an instance of VoseAlias using data from dist and number of values
+    VA = VoseAlias(dist, 100000)
+else:
+    dist = {}
+    count = int(input("Please input number of values you have: "))
+    for i in range(count):
+        dist[input("\nPlease input new value: ")] = float(input("\nPlease enter count for this value: "))
+    num = input("\nNow please input number of random values you want: ")
+    VA = VoseAlias(dist, num)
