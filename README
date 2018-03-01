@@ -1,15 +1,7 @@
 For ALIASMETHOD:
 This generates a user specified number of values as described in the keithschwartz article.
 
-It currently prints a list of the values given in VOSERUNNER.
-
-In VOSERUNNER, you can edit the dist by adding, subrtacting and editing weights and titles of variables. Follow basic format
-already shown in VOSERUNNER.
-
-EDIT 2.20.18:
-Moved some of the code around, now only one method is called from voseRunner.py, now put values in as before but put in 'n' in the call
-to VA now. This allows us to make sure no negative values in weights. Also added fnctionality to histogram.
-
------RUN VOSERUNNER AFTER YOU HAVE MADE THE CHANGES YOU WANT TO MAKE------
-
-BA
+UPDATE 2.27:
+Now gives you the option to input a csv file or manually input variables.
+Also now scales automatically so the weights do not have to add up to 1.
+Prints to a CSV file.
