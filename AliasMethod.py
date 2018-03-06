@@ -106,10 +106,12 @@ class VoseAlias(object):
             vals.append(self.alias_generation())	#get one alias_generation value (O(1)) and append (O(1)) it to vals
         self.generation_time = time.time() - self.init_time
         #print(vals)	#print the entire list
-        self.count_data(self.dist, vals) #function to print data nicely
+        #self.count_data(self.dist, vals) #function to print data nicely
+        self.print_raw(vals)
         self.generation_and_print_time = time.time() - self.generation_time
-        self.make_histogram(vals, n)	#make a histogram of results
+        self.total_time = time.time() - self.start_time
         self.print_times()
+        #self.make_histogram(vals, n)	#make a histogram of results
 
 ####################################################################################################		
 
@@ -126,9 +128,6 @@ class VoseAlias(object):
 
     def print_times(self):
         """This method just prints off the times taken for each part"""
-        #print("\nInitialization time: %s seconds" %self.init_time)
-        #print("\nGeneration time: %s seconds" %self.generation_time)
-        print("\nPrint time: %s seconds" %self.generation_and_print_time)
         print("\nTotal time: %s seconds" %self.total_time)
 
 ########################################################################################################
@@ -139,33 +138,46 @@ class VoseAlias(object):
             for x in dist:
                 varCount = vals.count(x)
                 print("Count of " + x + ": " + str(varCount)) #print the count
+                percent = str(100 * (varCount / len(vals)))
                 print("Percent: " + str(100*(varCount / len(vals))) + "%") #print the percent
                 myFile.write(str(x) + "," + str(varCount) + "," + percent + "\n")
 		
+
+    def print_raw(self, vals):
+        """Prints all values to csv"""
+        with open("outputs.csv", "w") as myFile:
+            for word in vals:
+                myFile.write("%s\n" %word)
+#######################################################################################################
+#######################################################################################################
+#######################################################################################################
 		
-##################################################################################################
-##################################################################################################
-##################################################################################################
 		
 		
 if len(sys.argv) == 2:		
-    #path = 'c:\\temp\\'
-
     file = open(sys.argv[1], "r")
     reader = csv.reader(file)
     dist = {}
     for line in reader:
-        dist[line[0]] = float(line[1])
-	
-    #set values and weights for generation
-    #dist = {"A" : .1, "B" : .2, "C" : .3, "D" : .4}
-
-    #make an instance of VoseAlias using data from dist and number of values
-    VA = VoseAlias(dist, 100000)
+        dist[line[1]] = float(line[2])
+    totalCount = 0
+    probs = dist
+    for i in dist.keys():
+        totalCount = totalCount + dist[i]
+    for i in dist.keys():
+        probs[i] = (dist[i]/totalCount)
+    VoseAlias(probs, 100000)
 else:
     dist = {}
     count = int(input("Please input number of values you have: "))
     for i in range(count):
         dist[input("\nPlease input new value: ")] = float(input("\nPlease enter count for this value: "))
     num = input("\nNow please input number of random values you want: ")
-    VA = VoseAlias(dist, num)
+    totalCount = 0
+    probs = dist
+    for i in dist.keys():
+        totalCount = totalCount + dist[i]
+    for i in dist.keys():
+        probs[i] = (dist[i]/totalCount)
+    VoseAlias(probs, num)
+
