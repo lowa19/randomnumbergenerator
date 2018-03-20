@@ -2,6 +2,7 @@ import os, random, re, sys, time, csv
 from decimal import *
 from optparse import OptionParser
 import matplotlib.pyplot as plt
+from random import randrange
 
 
 class VoseAlias(object):
@@ -148,7 +149,20 @@ class VoseAlias(object):
         with open("outputs.csv", "w") as myFile:
             for word in vals:
                 myFile.write("%s\n" %word)
-#######################################################################################################
+
+
+################################################################################
+    def ssnIni():
+        ssn =list(range(100000000,500000000))
+        t0 = time.time()
+        i = 100000000
+        while i > 1:
+            j = randrange(i)
+            i -= 1
+            ssn[i], ssn[j] = ssn[j], ssn[i]
+        print(ssn[0,100000000]+ 'took %.3f seconds' % (time.time() - t0))
+        return ssn[0,100000000]
+        
 #######################################################################################################
 #######################################################################################################
 		
