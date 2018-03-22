@@ -2,7 +2,7 @@ import os, random, re, sys, time, csv
 from decimal import *
 from optparse import OptionParser
 import matplotlib.pyplot as plt
-from random import randrange
+import json
 
 
 class VoseAlias(object):
@@ -15,12 +15,14 @@ class VoseAlias(object):
     generation_time = 0
     generation_and_print_time = 0
     total_time = 0
+    vals = []
 
 ######################################################################################################
 
     def __init__(self, dist, size):
         """ (VoseAlias, dict) -> NoneType """
         sum_of_inputs = 0
+        dist = self.calc_probs(dist)
         for i in dist.keys():
             sum_of_inputs = sum_of_inputs + dist[i]
             if dist[i] < 0:
@@ -33,7 +35,19 @@ class VoseAlias(object):
         self.alias_initialisation()
         self.init_time = time.time() - self.start_time
         self.sample_n(size)
-
+		
+########################################################################################################		
+		
+    def calc_probs(self, dist):
+        """scales probabilities"""
+        totalCount = 0
+        probs = dist
+        for i in dist.keys():
+            totalCount = totalCount + dist[i]
+        for i in dist.keys():
+            probs[i] = (dist[i]/totalCount)
+        return probs		
+		
 ########################################################################################################		
 		
     def alias_initialisation(self):
@@ -108,11 +122,13 @@ class VoseAlias(object):
         self.generation_time = time.time() - self.init_time
         #print(vals)	#print the entire list
         #self.count_data(self.dist, vals) #function to print data nicely
-        self.print_raw(vals)
+        #self.print_raw(vals)
         self.generation_and_print_time = time.time() - self.generation_time
         self.total_time = time.time() - self.start_time
         self.print_times()
         #self.make_histogram(vals, n)	#make a histogram of results
+        #self.print_json(vals)
+        self.vals = vals
 
 ####################################################################################################		
 
@@ -143,15 +159,28 @@ class VoseAlias(object):
                 print("Percent: " + str(100*(varCount / len(vals))) + "%") #print the percent
                 myFile.write(str(x) + "," + str(varCount) + "," + percent + "\n")
 		
-
+####################################################################################
+		
     def print_raw(self, vals):
         """Prints all values to csv"""
         with open("outputs.csv", "w") as myFile:
             for word in vals:
                 myFile.write("%s\n" %word)
 
-
-################################################################################
+###########################################################################################
+				
+    def print_json(self, vals):
+        """Prints json"""
+        print(json.dumps(vals))
+		
+####################################################################################
+		
+		
+    def return_list(self):
+        """Returns list of vals for json"""
+        return self.vals
+		
+###################################################################################
     def ssnIni():
         ssn =list(range(100000000,500000000))
         t0 = time.time()
@@ -162,36 +191,52 @@ class VoseAlias(object):
             ssn[i], ssn[j] = ssn[j], ssn[i]
         print(ssn[0,100000000]+ 'took %.3f seconds' % (time.time() - t0))
         return ssn[0,100000000]
-        
+
 #######################################################################################################
 #######################################################################################################
-		
-		
-		
+#######################################################################################################
+
+
 if len(sys.argv) == 2:		
     file = open(sys.argv[1], "r")
     reader = csv.reader(file)
     dist = {}
     for line in reader:
         dist[line[1]] = float(line[2])
-    totalCount = 0
-    probs = dist
-    for i in dist.keys():
-        totalCount = totalCount + dist[i]
-    for i in dist.keys():
-        probs[i] = (dist[i]/totalCount)
-    VoseAlias(probs, 100000)
+    vals = VoseAlias(dist, 100000)
+    new_vals = vals.return_list()
+    with open("outputs.csv", "w") as myFile:
+        for item in new_vals:
+            myFile.write(item + "\n")
+elif len(sys.argv) == 3:
+    #first data type (names)
+    file = open(sys.argv[1], "r")
+    reader = csv.reader(file)
+    dist = {}
+    for line in reader:
+        dist[line[1]] = float(line[2])
+    vals = VoseAlias(dist, 100000)
+    vals1 = vals.return_list()
+    file.close()
+    #get list of second data type (ages)
+    file2 = open(sys.argv[2], "r")
+    reader = csv.reader(file2)
+    dist2 = {}
+    for line in reader:
+        dist2[line[1]] = float(line[2])
+    new_vals = VoseAlias(dist2, 100000)
+    vals2 = new_vals.return_list()
+    #now create dictionary with both data pieces
+    new_dist = []
+    for x in range(len((vals1))):
+        new_dist.append("Name: " + vals1[x] + "\t\tAge: " + vals2[x] + "\n")
+    with open("outputs.csv", "w") as myFile:
+            for item in new_dist:
+                myFile.write(item)
 else:
     dist = {}
     count = int(input("Please input number of values you have: "))
     for i in range(count):
         dist[input("\nPlease input new value: ")] = float(input("\nPlease enter count for this value: "))
     num = input("\nNow please input number of random values you want: ")
-    totalCount = 0
-    probs = dist
-    for i in dist.keys():
-        totalCount = totalCount + dist[i]
-    for i in dist.keys():
-        probs[i] = (dist[i]/totalCount)
-    VoseAlias(probs, num)
-
+    VoseAlias(dist, num)
