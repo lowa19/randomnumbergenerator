@@ -127,7 +127,6 @@ class VoseAlias(object):
         self.total_time = time.time() - self.start_time
         self.print_times()
         #self.make_histogram(vals, n)	#make a histogram of results
-        #self.print_json(vals)
         self.vals = vals
 
 ####################################################################################################		
@@ -179,23 +178,11 @@ class VoseAlias(object):
     def return_list(self):
         """Returns list of vals for json"""
         return self.vals
-		
-###################################################################################
-    def ssnIni():
-        ssn =list(range(100000000,500000000))
-        t0 = time.time()
-        i = 100000000
-        while i > 1:
-            j = randrange(i)
-            i -= 1
-            ssn[i], ssn[j] = ssn[j], ssn[i]
-        print(ssn[0,100000000]+ 'took %.3f seconds' % (time.time() - t0))
-        return ssn[0,100000000]
 
 #######################################################################################################
 #######################################################################################################
 #######################################################################################################
-
+num = 100000
 
 if len(sys.argv) == 2:		
     file = open(sys.argv[1], "r")
@@ -203,7 +190,7 @@ if len(sys.argv) == 2:
     dist = {}
     for line in reader:
         dist[line[1]] = float(line[2])
-    vals = VoseAlias(dist, 100000)
+    vals = VoseAlias(dist, num)
     new_vals = vals.return_list()
     with open("outputs.csv", "w") as myFile:
         for item in new_vals:
@@ -215,7 +202,7 @@ elif len(sys.argv) == 3:
     dist = {}
     for line in reader:
         dist[line[1]] = float(line[2])
-    vals = VoseAlias(dist, 100000)
+    vals = VoseAlias(dist, num)
     vals1 = vals.return_list()
     file.close()
     #get list of second data type (ages)
@@ -224,12 +211,14 @@ elif len(sys.argv) == 3:
     dist2 = {}
     for line in reader:
         dist2[line[1]] = float(line[2])
-    new_vals = VoseAlias(dist2, 100000)
+    new_vals = VoseAlias(dist2, num)
     vals2 = new_vals.return_list()
-    #now create dictionary with both data pieces
+    ssn = 100000000
+    #now create list with all data pieces
     new_dist = []
     for x in range(len((vals1))):
-        new_dist.append("Name: " + vals1[x] + "\t\tAge: " + vals2[x] + "\n")
+        new_dist.append("Name: " + vals1[x] + "\t\tAge: " + vals2[x] + "\t\tSSN: " + str(ssn) + "\n")
+        ssn = ssn + 1
     with open("outputs.csv", "w") as myFile:
             for item in new_dist:
                 myFile.write(item)
