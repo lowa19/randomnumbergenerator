@@ -183,6 +183,7 @@ class VoseAlias(object):
 #######################################################################################################
 #######################################################################################################
 num = 100000
+'''
 if len(sys.argv) == 2:		
     file = open(sys.argv[1], "r")
     reader = csv.reader(file)
@@ -228,3 +229,4 @@ else:
         dist[input("\nPlease input new value: ")] = float(input("\nPlease enter count for this value: "))
     num = input("\nNow please input number of random values you want: ")
     VoseAlias(dist, num)
+'''
