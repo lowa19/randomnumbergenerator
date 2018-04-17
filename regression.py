@@ -1,4 +1,9 @@
+from Equation import Expression
 
+def getValues(func, inputs):
+    fn = Expression(func)
+    dic = {x : fn(x) for x in inputs}
+    return dic
 
 def regEq(x):
     y = x+1
